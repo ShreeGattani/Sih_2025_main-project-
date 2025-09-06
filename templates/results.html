@@ -42,40 +42,36 @@
                 <h1 class="text-xl font-bold">MineSafe</h1>
             </div>
             <nav class="flex flex-col gap-2 flex-grow">
-                <a href="index.html" class="flex items-center gap-3 px-4 py-2 rounded-md text-gray-400 hover:bg-[#1f2937] hover:text-white transition-colors">
+                <a href="{{ url_for('index') }}" class="flex items-center gap-3 px-4 py-2 rounded-md text-gray-400 hover:bg-[#1f2937] hover:text-white transition-colors">
                     <span class="material-symbols-outlined">dashboard</span>
                     <span>Dashboard</span>
                 </a>
-                <a href="prediction.html" class="flex items-center gap-3 px-4 py-2 rounded-md text-gray-400 hover:bg-[#1f2937] hover:text-white transition-colors">
+                <a href="{{ url_for('predictions') }}" class="flex items-center gap-3 px-4 py-2 rounded-md text-gray-400 hover:bg-[#1f2937] hover:text-white transition-colors">
                     <span class="material-symbols-outlined">model_training</span>
                     <span>Predictions</span>
                 </a>
-                <a href="sensors.html" class="flex items-center gap-3 px-4 py-2 rounded-md text-gray-400 hover:bg-[#1f2937] hover:text-white transition-colors">
-                    <span class="material-symbols-outlined">sensors</span>
-                    <span>Sensor Data</span>
-                </a>
-                <a href="alerts.html" class="flex items-center gap-3 px-4 py-2 rounded-md text-gray-400 hover:bg-[#1f2937] hover:text-white transition-colors">
+                <a href="{{ url_for('alerts') }}" class="flex items-center gap-3 px-4 py-2 rounded-md text-gray-400 hover:bg-[#1f2937] hover:text-white transition-colors">
                     <span class="material-symbols-outlined">notifications_active</span>
                     <span>Alerts</span>
                 </a>
-                <a href="upload.html" class="flex items-center gap-3 px-4 py-2 rounded-md text-gray-400 hover:bg-[#1f2937] hover:text-white transition-colors">
+                <a href="{{ url_for('upload') }}" class="flex items-center gap-3 px-4 py-2 rounded-md text-gray-400 hover:bg-[#1f2937] hover:text-white transition-colors">
                     <span class="material-symbols-outlined">upload_file</span>
                     <span>Upload Data</span>
                 </a>
-                <a href="results.html" class="flex items-center gap-3 px-4 py-2 rounded-md bg-[#1f2937] text-white">
+                <a href="{{ url_for('results') }}" class="flex items-center gap-3 px-4 py-2 rounded-md bg-[#1f2937] text-white">
                     <span class="material-symbols-outlined">summarize</span>
                     <span>Results</span>
                 </a>
-                <a href="chatbot.html" class="flex items-center gap-3 px-4 py-2 rounded-md text-gray-400 hover:bg-[#1f2937] hover:text-white transition-colors">
+                <a href="{{ url_for('chatbot') }}" class="flex items-center gap-3 px-4 py-2 rounded-md text-gray-400 hover:bg-[#1f2937] hover:text-white transition-colors">
                     <span class="material-symbols-outlined">smart_toy</span>
                     <span>AI Assistant</span>
                 </a>
             </nav>
             <div class="mt-auto">
-                <a href="settings.html" class="flex items-center gap-3 px-4 py-2 rounded-md text-gray-400 hover:bg-[#1f2937] hover:text-white transition-colors">
+                <button class="flex items-center gap-3 px-4 py-2 rounded-md text-gray-400 cursor-default">
                     <span class="material-symbols-outlined">settings</span>
                     <span>Settings</span>
-                </a>
+                </button>
             </div>
         </aside>
 
@@ -137,10 +133,7 @@
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <div class="lg:col-span-2">
-                    <div class="bg-[#0d151c] p-6 rounded-md border border-[#1f2937]">
-                        <h3 class="text-xl font-bold text-white mb-4">Potential Rockfall Zones</h3>
-                        <div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-md object-cover" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDvIcHc9s7iwBkc5cqn40ynueDgEHQE64eB7yAM4_G5NIiqRCH44zB2RvUdbG9L53-3vFRrQSHMO8Gt23Xgdg2dAMw5HHQ92uzizCCfTum3MKqXqY4lTumlOEHpKbj-ua30bJ__hrhWrZQDOvRMUZ_srN1b5nbTnGGiEzXM2iMLDEB4EsyJjoKBPAZiLhpZqBRMjSvEzNUjZIrptgOja0xn_7MgdhrSq7DX2_BbhwvB-EW-hPQPiQN-teTpBUd3CDztmkFZ7wJ0Y0FD");'></div>
-                    </div>
+                    
                     <div class="bg-[#0d151c] p-6 rounded-md border border-[#1f2937] mt-8">
                         <h3 class="text-xl font-bold text-white mb-4">Suggested Mitigation Actions</h3>
                         <ul class="space-y-4 text-gray-300">
@@ -203,7 +196,5 @@
             </div>
         </main>
     </div>
-</body>
-</html>
 </body>
 </html>

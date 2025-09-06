@@ -33,40 +33,36 @@
                 <h1 class="text-xl font-bold">MineSafe</h1>
             </div>
             <nav class="flex flex-col gap-2 flex-grow">
-                <a href="index.html" class="flex items-center gap-3 px-4 py-2 rounded-md bg-[#233648] text-white">
+                <a href="{{ url_for('index') }}" class="flex items-center gap-3 px-4 py-2 rounded-md bg-[#233648] text-white">
                     <span class="material-symbols-outlined">dashboard</span>
                     <span>Dashboard</span>
                 </a>
-                <a href="prediction.html" class="flex items-center gap-3 px-4 py-2 rounded-md text-gray-400 hover:bg-[#233648] hover:text-white transition-colors">
+                <a href="{{ url_for('predictions') }}" class="flex items-center gap-3 px-4 py-2 rounded-md text-gray-400 hover:bg-[#233648] hover:text-white transition-colors">
                     <span class="material-symbols-outlined">model_training</span>
                     <span>Predictions</span>
                 </a>
-                <a href="sensors.html" class="flex items-center gap-3 px-4 py-2 rounded-md text-gray-400 hover:bg-[#233648] hover:text-white transition-colors">
-                    <span class="material-symbols-outlined">sensors</span>
-                    <span>Sensor Data</span>
-                </a>
-                <a href="alerts.html" class="flex items-center gap-3 px-4 py-2 rounded-md text-gray-400 hover:bg-[#233648] hover:text-white transition-colors">
+                <a href="{{ url_for('alerts') }}" class="flex items-center gap-3 px-4 py-2 rounded-md text-gray-400 hover:bg-[#233648] hover:text-white transition-colors">
                     <span class="material-symbols-outlined">notifications_active</span>
                     <span>Alerts</span>
                 </a>
-                <a href="upload.html" class="flex items-center gap-3 px-4 py-2 rounded-md text-gray-400 hover:bg-[#233648] hover:text-white transition-colors">
+                <a href="{{ url_for('upload') }}" class="flex items-center gap-3 px-4 py-2 rounded-md text-gray-400 hover:bg-[#233648] hover:text-white transition-colors">
                     <span class="material-symbols-outlined">upload_file</span>
                     <span>Upload Data</span>
                 </a>
-                <a href="results.html" class="flex items-center gap-3 px-4 py-2 rounded-md text-gray-400 hover:bg-[#233648] hover:text-white transition-colors">
+                <a href="{{ url_for('results') }}" class="flex items-center gap-3 px-4 py-2 rounded-md text-gray-400 hover:bg-[#233648] hover:text-white transition-colors">
                     <span class="material-symbols-outlined">summarize</span>
                     <span>Results</span>
                 </a>
-                <a href="chatbot.html" class="flex items-center gap-3 px-4 py-2 rounded-md text-gray-400 hover:bg-[#233648] hover:text-white transition-colors">
+                <a href="{{ url_for('chatbot') }}" class="flex items-center gap-3 px-4 py-2 rounded-md text-gray-400 hover:bg-[#233648] hover:text-white transition-colors">
                     <span class="material-symbols-outlined">smart_toy</span>
                     <span>AI Assistant</span>
                 </a>
             </nav>
             <div class="mt-auto">
-                <a href="settings.html" class="flex items-center gap-3 px-4 py-2 rounded-md text-gray-400 hover:bg-[#233648] hover:text-white transition-colors">
+                <button class="flex items-center gap-3 px-4 py-2 rounded-md text-gray-400 cursor-default">
                     <span class="material-symbols-outlined">settings</span>
                     <span>Settings</span>
-                </a>
+                </button>
             </div>
         </aside>
 
@@ -82,9 +78,15 @@
                         <span class="material-symbols-outlined">notifications</span>
                     </button>
                     <div class="flex items-center gap-2">
-                        <div class="size-10 rounded-full bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA1vinqA5VrtThhnhWfWhSvZ_Rkj7QMn9cl6rva3UDsOgBvXzpyCXLj4GRTyAVR0dldRZsadvsHFcCzUQ1fmIRLbYN1XGdNVgB9ktT9rEXjPsAybJ2L9HCjbUvQz0xl_EVtCqh8M8uHH7_Nx1Ul3kOxmTGOKU2M6E9YoMbEB5lliXHptFft3el71vuloWSAjTsx9bLj-Wri4ZKJJegVW9qgbjEp9LV_ghzZUqeA1nSf7V1Q6AO201-pPLBUF4-KrWqC32Yg87ahfvor');"></div>
-                        <span class="material-symbols-outlined text-gray-400">expand_more</span>
-                    </div>
+  <div 
+    id="getLocationBtn" 
+    class="size-10 rounded-full bg-cover bg-center cursor-pointer" 
+    style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA1vinqA5VrtThhnhWfWhSvZ_Rkj7QMn9cl6rva3UDsOgBvXzpyCXLj4GRTyAVR0dldRZsadvsHFcCzUQ1fmIRLbYN1XGdNVgB9ktT9rEXjPsAybJ2L9HCjbUvQz0xl_EVtCqh8M8uHH7_Nx1Ul3kOxmTGOKU2M6E9YoMbEB5lliXHptFft3el71vuloWSAjTsx9bLj-Wri4ZKJJegVW9qgbjEp9LV_ghzZUqeA1nSf7V1Q6AO201-pPLBUF4-KrWqC32Yg87ahfvor');"
+  ></div>
+  <span class="material-symbols-outlined text-gray-400">expand_more</span>
+</div>
+
+
                 </div>
             </header>
 
@@ -93,7 +95,7 @@
                     <div class="flex justify-between items-start">
                         <div>
                             <p class="text-gray-400">Current Risk Level</p>
-                            <p class="text-3xl font-bold mt-2">Medium</p>
+                            <p class="text-3xl font-bold mt-2">{{ risk }}</p>
                         </div>
                         <div class="p-3 rounded-full bg-yellow-500/20">
                             <span class="material-symbols-outlined text-yellow-500">warning</span>
@@ -177,23 +179,19 @@
                 <div class="bg-[#1a2024] p-6 rounded-lg border border-[#283339]">
                     <h2 class="text-xl font-bold mb-4">Quick Actions</h2>
                     <div class="grid grid-cols-2 gap-4">
-                        <a href="sensors.html" class="p-4 rounded-lg bg-[#233648] hover:bg-[#2a4058] transition-colors flex flex-col items-center justify-center">
-                            <span class="material-symbols-outlined text-3xl mb-2">sensors</span>
-                            <span>Sensor Data</span>
-                        </a>
-                        <a href="prediction.html" class="p-4 rounded-lg bg-[#233648] hover:bg-[#2a4058] transition-colors flex flex-col items-center justify-center">
+                        <a href="{{ url_for('predictions')}}" class="p-4 rounded-lg bg-[#233648] hover:bg-[#2a4058] transition-colors flex flex-col items-center justify-center">
                             <span class="material-symbols-outlined text-3xl mb-2">model_training</span>
                             <span>Run Prediction</span>
                         </a>
-                        <a href="alerts.html" class="p-4 rounded-lg bg-[#233648] hover:bg-[#2a4058] transition-colors flex flex-col items-center justify-center">
+                        <a href="{{ url_for('alerts')}}" class="p-4 rounded-lg bg-[#233648] hover:bg-[#2a4058] transition-colors flex flex-col items-center justify-center">
                             <span class="material-symbols-outlined text-3xl mb-2">notifications</span>
                             <span>View Alerts</span>
                         </a>
-                        <a href="upload.html" class="p-4 rounded-lg bg-[#233648] hover:bg-[#2a4058] transition-colors flex flex-col items-center justify-center">
+                        <a href="{{ url_for('upload')}}" class="p-4 rounded-lg bg-[#233648] hover:bg-[#2a4058] transition-colors flex flex-col items-center justify-center">
                             <span class="material-symbols-outlined text-3xl mb-2">upload_file</span>
                             <span>Upload Data</span>
                         </a>
-                        <a href="results.html" class="p-4 rounded-lg bg-[#233648] hover:bg-[#2a4058] transition-colors flex flex-col items-center justify-center">
+                        <a href="{{ url_for('results')}}" class="p-4 rounded-lg bg-[#233648] hover:bg-[#2a4058] transition-colors flex flex-col items-center justify-center">
                             <span class="material-symbols-outlined text-3xl mb-2">summarize</span>
                             <span>View Reports</span>
                         </a>
@@ -202,6 +200,34 @@
             </div>
         </main>
     </div>
+
+
+
+
+    <script>
+const btn = document.getElementById("getLocationBtn");
+
+btn.addEventListener("click", () => {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition((position) => {
+      const data = {
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude
+      };
+
+      // Send location to Flask backend
+      fetch("/location", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+      });
+    });
+  }
+});
+</script>
 </body>
 
 </html>
+
