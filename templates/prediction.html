@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MineSafe - Rockfall Predictions</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <style>
+        :root {
+            --primary-color: #1193d4;
+            --primary-dark: #0d7bb8;
+        }
+        body {
+            font-family: 'Inter', 'Space Grotesk', sans-serif;
+            background-color: #111618;
+        }
+    </style>
+</head>
+<body class="text-white">
+    <div class="flex min-h-screen">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-[#192633] p-6 flex flex-col">
+            <div class="flex items-center gap-3 mb-10">
+                <div class="size-8 text-white">
+                    <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 42.4379C4 42.4379 14.0962 36.0744 24 41.1692C35.0664 46.8624 44 42.2078 44 42.2078L44 7.01134C44 7.01134 35.068 11.6577 24.0031 5.96913C14.0971 0.876274 4 7.27094 4 7.27094L4 42.4379Z" fill="currentColor"></path>
+                    </svg>
+                </div>
+                <h1 class="text-xl font-bold">MineSafe</h1>
+            </div>
+            <nav class="flex flex-col gap-2 flex-grow">
+                <a href="index.html" class="flex items-center gap-3 px-4 py-2 rounded-md text-gray-400 hover:bg-[#233648] hover:text-white transition-colors">
+                    <span class="material-symbols-outlined">dashboard</span>
+                    <span>Dashboard</span>
+                </a>
+                <a href="prediction.html" class="flex items-center gap-3 px-4 py-2 rounded-md bg-[#233648] text-white">
+                    <span class="material-symbols-outlined">model_training</span>
+                    <span>Predictions</span>
+                </a>
+                <a href="alerts.html" class="flex items-center gap-3 px-4 py-2 rounded-md text-gray-400 hover:bg-[#233648] hover:text-white transition-colors">
+                    <span class="material-symbols-outlined">notifications_active</span>
+                    <span>Alerts</span>
+                </a>
+                <a href="upload.html" class="flex items-center gap-3 px-4 py-2 rounded-md text-gray-400 hover:bg-[#233648] hover:text-white transition-colors">
+                    <span class="material-symbols-outlined">upload_file</span>
+                    <span>Upload Data</span>
+                </a>
+                <a href="results.html" class="flex items-center gap-3 px-4 py-2 rounded-md text-gray-400 hover:bg-[#233648] hover:text-white transition-colors">
+                    <span class="material-symbols-outlined">summarize</span>
+                    <span>Results</span>
+                </a>
+                <a href="chatbot.html" class="flex items-center gap-3 px-4 py-2 rounded-md text-gray-400 hover:bg-[#233648] hover:text-white transition-colors">
+                    <span class="material-symbols-outlined">smart_toy</span>
+                    <span>AI Assistant</span>
+                </a>
+            </nav>
+            <div class="mt-auto">
+                <a href="settings.html" class="flex items-center gap-3 px-4 py-2 rounded-md text-gray-400 hover:bg-[#233648] hover:text-white transition-colors">
+                    <span class="material-symbols-outlined">settings</span>
+                    <span>Settings</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-8">
+            <header class="flex justify-between items-center mb-8">
+                <div>
+                    <h1 class="text-3xl font-bold">Rockfall Predictions</h1>
+                    <p class="text-gray-400">Analyze trends and future predictions using interactive charts and graphs</p>
+                </div>
+                <div class="flex items-center gap-4">
+                    <button class="p-2 rounded-full bg-[#192633] hover:bg-[#233648] transition-colors">
+                        <span class="material-symbols-outlined">notifications</span>
+                    </button>
+                    <div class="flex items-center gap-2">
+                        <div class="size-10 rounded-full bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA1vinqA5VrtThhnhWfWhSvZ_Rkj7QMn9cl6rva3UDsOgBvXzpyCXLj4GRTyAVR0dldRZsadvsHFcCzUQ1fmIRLbYN1XGdNVgB9ktT9rEXjPsAybJ2L9HCjbUvQz0xl_EVtCqh8M8uHH7_Nx1Ul3kOxmTGOKU2M6E9YoMbEB5lliXHptFft3el71vuloWSAjTsx9bLj-Wri4ZKJJegVW9qgbjEp9LV_ghzZUqeA1nSf7V1Q6AO201-pPLBUF4-KrWqC32Yg87ahfvor');"></div>
+                        <span class="material-symbols-outlined text-gray-400">expand_more</span>
+                    </div>
+                </div>
+            </header>
+
+            <div class="mb-8">
+                <div class="inline-flex rounded-md bg-[#283339] p-1">
+                    <label class="flex cursor-pointer items-center justify-center rounded-md px-4 py-2 text-sm font-medium text-gray-400 has-[:checked]:bg-[#111618] has-[:checked]:text-white transition-colors">
+                        <span>1 Week</span>
+                        <input class="invisible w-0" name="timeframe" type="radio" value="1 Week"/>
+                    </label>
+                    <label class="flex cursor-pointer items-center justify-center rounded-md px-4 py-2 text-sm font-medium text-gray-400 has-[:checked]:bg-[#111618] has-[:checked]:text-white transition-colors">
+                        <span>1 Month</span>
+                        <input checked="" class="invisible w-0" name="timeframe" type="radio" value="1 Month"/>
+                    </label>
+                    <label class="flex cursor-pointer items-center justify-center rounded-md px-4 py-2 text-sm font-medium text-gray-400 has-[:checked]:bg-[#111618] has-[:checked]:text-white transition-colors">
+                        <span>3 Months</span>
+                        <input class="invisible w-0" name="timeframe" type="radio" value="3 Months"/>
+                    </label>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                <div class="flex flex-col gap-4 rounded-md border border-[#283339] bg-[#1a2024] p-6">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-lg font-medium text-white">Rockfall Probability Over Time</p>
+                            <p class="text-sm text-gray-400">Past Month</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-4xl font-bold text-white">75%</p>
+                            <div class="flex items-center gap-1 text-green-500">
+                                <span class="material-symbols-outlined text-base">arrow_upward</span>
+                                <p class="text-base font-medium">+15%</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex-1 flex flex-col justify-end">
+                        <svg fill="none" height="180" preserveAspectRatio="none" viewBox="-3 0 478 150" width="100%" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0 109C18.1538 109 18.1538 21 36.3077 21C54.4615 21 54.4615 41 72.6154 41C90.7692 41 90.7692 93 108.923 93C127.077 93 127.077 33 145.231 33C163.385 33 163.385 101 181.538 101C199.692 101 199.692 61 217.846 61C236 61 236 45 254.154 45C272.308 45 272.308 121 290.462 121C308.615 121 308.615 149 326.769 149C344.923 149 344.923 1 363.077 1C381.231 1 381.231 81 399.385 81C417.538 81 417.538 129 435.692 129C453.846 129 453.846 25 472 25V149H326.769H0V109Z" fill="url(#paint0_linear_1131_5935_updated)"></path>
+                            <path d="M0 109C18.1538 109 18.1538 21 36.3077 21C54.4615 21 54.4615 41 72.6154 41C90.7692 41 90.7692 93 108.923 93C127.077 93 127.077 33 145.231 33C163.385 33 163.385 101 181.538 101C199.692 101 199.692 61 217.846 61C236 61 236 45 254.154 45C272.308 45 272.308 121 290.462 121C308.615 121 308.615 149 326.769 149C344.923 149 344.923 1 363.077 1C381.231 1 381.231 81 399.385 81C417.538 81 417.538 129 435.692 129C453.846 129 453.846 25 472 25" stroke="#1193d4" stroke-linecap="round" stroke-width="2"></path>
+                            <defs>
+                                <linearGradient gradientUnits="userSpaceOnUse" id="paint0_linear_1131_5935_updated" x1="236" x2="236" y1="1" y2="149">
+                                    <stop stop-color="#1193d4" stop-opacity="0.4"></stop>
+                                    <stop offset="1" stop-color="#1193d4" stop-opacity="0"></stop>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                        <div class="flex justify-around text-xs font-bold text-gray-400">
+                            <span>Mon</span>
+                            <span>Tue</span>
+                            <span>Wed</span>
+                            <span>Thu</span>
+                            <span>Fri</span>
+                            <span>Sat</span>
+                            <span>Sun</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex flex-col gap-4 rounded-md border border-[#283339] bg-[#1a2024] p-6">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-lg font-medium text-white">Rockfall Frequency by Location</p>
+                            <p class="text-sm text-gray-400">Past Month</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-4xl font-bold text-white">120</p>
+                            <div class="flex items-center gap-1 text-red-500">
+                                <span class="material-symbols-outlined text-base">arrow_downward</span>
+                                <p class="text-base font-medium">-5%</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid flex-1 grid-flow-col gap-6 items-end justify-items-center px-3">
+                        <div class="flex flex-col items-center gap-2 w-full">
+                            <div class="bg-[#1193d4] w-full rounded-t-sm" style="height: 70%;"></div>
+                            <p class="text-xs font-bold text-gray-400">Zone A</p>
+                        </div>
+                        <div class="flex flex-col items-center gap-2 w-full">
+                            <div class="bg-[#1193d4] w-full rounded-t-sm" style="height: 20%;"></div>
+                            <p class="text-xs font-bold text-gray-400">Zone B</p>
+                        </div>
+                        <div class="flex flex-col items-center gap-2 w-full">
+                            <div class="bg-[#1193d4] w-full rounded-t-sm" style="height: 35%;"></div>
+                            <p class="text-xs font-bold text-gray-400">Zone C</p>
+                        </div>
+                        <div class="flex flex-col items-center gap-2 w-full">
+                            <div class="bg-[#1193d4] w-full rounded-t-sm" style="height: 60%;"></div>
+                            <p class="text-xs font-bold text-gray-400">Zone D</p>
+                        </div>
+                        <div class="flex flex-col items-center gap-2 w-full">
+                            <div class="bg-[#1193d4] w-full rounded-t-sm" style="height: 40%;"></div>
+                            <p class="text-xs font-bold text-gray-400">Zone E</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rounded-md border border-[#283339] bg-[#1a2024] p-6">
+                <h2 class="text-xl font-bold text-white mb-4">Prediction Parameters</h2>
+                <div class="divide-y divide-[#283339]">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-2 py-4">
+                        <p class="text-gray-400">Model Accuracy</p>
+                        <p class="text-white col-span-2">92%</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-2 py-4">
+                        <p class="text-gray-400">Data Sources</p>
+                        <p class="text-white col-span-2">Seismic Sensors, Weather Data, Historical Rockfall Events</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-2 py-4">
+                        <p class="text-gray-400">Prediction Confidence</p>
+                        <p class="text-white col-span-2">High</p>
+                    </div>
+                </div>
+                <div class="flex justify-end mt-6">
+                    <button class="flex items-center gap-2 min-w-[84px] max-w-[480px] cursor-pointer justify-center overflow-hidden rounded-md h-10 px-4 bg-[#1193d4] text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-opacity-80 transition-colors">
+                        <span class="material-symbols-outlined">download</span>
+                        <span class="truncate">Download Report</span>
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

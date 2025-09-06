@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MineSafe - Prediction Results</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <style>
+        :root {
+            --primary-color: #1193d4;
+            --primary-dark: #0d7bb8;
+            --primary-50: #e8f0f7;
+            --primary-100: #d1e0ef;
+            --primary-200: #a3c2df;
+            --primary-300: #75a3d0;
+            --primary-400: #4785c0;
+            --primary-500: #1966b3;
+            --primary-600: #14528f;
+            --primary-700: #0f3d6b;
+            --primary-800: #0a2948;
+            --primary-900: #051424;
+        }
+        .risk-high { color: #ef4444; }
+        .risk-medium { color: #f97316; }
+        .risk-low { color: #22c55e; }
+    </style>
+</head>
+<body class="bg-[#0a1017] text-gray-300">
+    <div class="flex min-h-screen">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-[#0d151c] p-6 flex flex-col">
+            <div class="flex items-center gap-3 mb-10">
+                <div class="size-8 text-white">
+                    <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 42.4379C4 42.4379 14.0962 36.0744 24 41.1692C35.0664 46.8624 44 42.2078 44 42.2078L44 7.01134C44 7.01134 35.068 11.6577 24.0031 5.96913C14.0971 0.876274 4 7.27094 4 7.27094L4 42.4379Z" fill="currentColor"></path>
+                    </svg>
+                </div>
+                <h1 class="text-xl font-bold">MineSafe</h1>
+            </div>
+            <nav class="flex flex-col gap-2 flex-grow">
+                <a href="index.html" class="flex items-center gap-3 px-4 py-2 rounded-md text-gray-400 hover:bg-[#1f2937] hover:text-white transition-colors">
+                    <span class="material-symbols-outlined">dashboard</span>
+                    <span>Dashboard</span>
+                </a>
+                <a href="prediction.html" class="flex items-center gap-3 px-4 py-2 rounded-md text-gray-400 hover:bg-[#1f2937] hover:text-white transition-colors">
+                    <span class="material-symbols-outlined">model_training</span>
+                    <span>Predictions</span>
+                </a>
+                <a href="alerts.html" class="flex items-center gap-3 px-4 py-2 rounded-md text-gray-400 hover:bg-[#1f2937] hover:text-white transition-colors">
+                    <span class="material-symbols-outlined">notifications_active</span>
+                    <span>Alerts</span>
+                </a>
+                <a href="upload.html" class="flex items-center gap-3 px-4 py-2 rounded-md text-gray-400 hover:bg-[#1f2937] hover:text-white transition-colors">
+                    <span class="material-symbols-outlined">upload_file</span>
+                    <span>Upload Data</span>
+                </a>
+                <a href="results.html" class="flex items-center gap-3 px-4 py-2 rounded-md bg-[#1f2937] text-white">
+                    <span class="material-symbols-outlined">summarize</span>
+                    <span>Results</span>
+                </a>
+                <a href="chatbot.html" class="flex items-center gap-3 px-4 py-2 rounded-md text-gray-400 hover:bg-[#1f2937] hover:text-white transition-colors">
+                    <span class="material-symbols-outlined">smart_toy</span>
+                    <span>AI Assistant</span>
+                </a>
+            </nav>
+            <div class="mt-auto">
+                <a href="settings.html" class="flex items-center gap-3 px-4 py-2 rounded-md text-gray-400 hover:bg-[#1f2937] hover:text-white transition-colors">
+                    <span class="material-symbols-outlined">settings</span>
+                    <span>Settings</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-8">
+            <header class="flex justify-between items-center mb-8">
+                <div>
+                    <h1 class="text-3xl font-bold text-white">Rockfall Prediction Results</h1>
+                    <p class="text-gray-400">Latest analysis for open-pit mine operations</p>
+                </div>
+                <div class="flex items-center gap-4">
+                    <button class="p-2 rounded-full bg-[#0d151c] hover:bg-[#1f2937] transition-colors">
+                        <span class="material-symbols-outlined">notifications</span>
+                    </button>
+                    <div class="flex items-center gap-2">
+                        <div class="size-10 rounded-full bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA1vinqA5VrtThhnhWfWhSvZ_Rkj7QMn9cl6rva3UDsOgBvXzpyCXLj4GRTyAVR0dldRZsadvsHFcCzUQ1fmIRLbYN1XGdNVgB9ktT9rEXjPsAybJ2L9HCjbUvQz0xl_EVtCqh8M8uHH7_Nx1Ul3kOxmTGOKU2M6E9YoMbEB5lliXHptFft3el71vuloWSAjTsx9bLj-Wri4ZKJJegVW9qgbjEp9LV_ghzZUqeA1nSf7V1Q6AO201-pPLBUF4-KrWqC32Yg87ahfvor');"></div>
+                        <span class="material-symbols-outlined text-gray-400">expand_more</span>
+                    </div>
+                </div>
+            </header>
+
+            <div class="flex justify-between items-start mb-8">
+                <div>
+                    <h2 class="text-3xl font-bold text-white mb-2">Rockfall Prediction Results</h2>
+                    <p class="text-gray-400">Latest analysis for open-pit mine operations.</p>
+                </div>
+                <div class="relative">
+                    <button class="flex items-center gap-2 bg-[var(--primary-600)] text-white px-4 py-2 rounded-md hover:bg-[var(--primary-700)] transition-colors">
+                        <span class="material-symbols-outlined">download</span>
+                        <span>Export</span>
+                        <span class="material-symbols-outlined">expand_more</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+                <div class="bg-[#0d151c] p-6 rounded-md border border-[#1f2937]">
+                    <div class="flex items-center gap-4 mb-2">
+                        <span class="material-symbols-outlined text-3xl risk-high">error</span>
+                        <p class="text-lg font-medium text-white">Risk Level</p>
+                    </div>
+                    <p class="text-4xl font-bold risk-high">High</p>
+                </div>
+                <div class="bg-[#0d151c] p-6 rounded-md border border-[#1f2937]">
+                    <div class="flex items-center gap-4 mb-2">
+                        <span class="material-symbols-outlined text-3xl text-[var(--primary-400)]">percent</span>
+                        <p class="text-lg font-medium text-white">Probability Score</p>
+                    </div>
+                    <p class="text-4xl font-bold text-white">85%</p>
+                </div>
+                <div class="bg-[#0d151c] p-6 rounded-md border border-[#1f2937]">
+                    <div class="flex items-center gap-4 mb-2">
+                        <span class="material-symbols-outlined text-3xl text-gray-400">calendar_today</span>
+                        <p class="text-lg font-medium text-white">Prediction Date</p>
+                    </div>
+                    <p class="text-2xl font-bold text-white">July 26, 2024</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-2">
+                    <div class="bg-[#0d151c] p-6 rounded-md border border-[#1f2937]">
+                        <h3 class="text-xl font-bold text-white mb-4">Potential Rockfall Zones</h3>
+                        <div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-md object-cover" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDvIcHc9s7iwBkc5cqn40ynueDgEHQE64eB7yAM4_G5NIiqRCH44zB2RvUdbG9L53-3vFRrQSHMO8Gt23Xgdg2dAMw5HHQ92uzizCCfTum3MKqXqY4lTumlOEHpKbj-ua30bJ__hrhWrZQDOvRMUZ_srN1b5nbTnGGiEzXM2iMLDEB4EsyJjoKBPAZiLhpZqBRMjSvEzNUjZIrptgOja0xn_7MgdhrSq7DX2_BbhwvB-EW-hPQPiQN-teTpBUd3CDztmkFZ7wJ0Y0FD");'></div>
+                    </div>
+                    <div class="bg-[#0d151c] p-6 rounded-md border border-[#1f2937] mt-8">
+                        <h3 class="text-xl font-bold text-white mb-4">Suggested Mitigation Actions</h3>
+                        <ul class="space-y-4 text-gray-300">
+                            <li class="flex items-start gap-3">
+                                <span class="material-symbols-outlined text-[var(--primary-400)] mt-1">construction</span>
+                                <span>Implement temporary slope stabilization measures in <strong class="font-semibold text-white">Zone 1</strong> and <strong class="font-semibold text-white">Zone 5</strong>.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="material-symbols-outlined text-[var(--primary-400)] mt-1">monitor_heart</span>
+                                <span>Increase monitoring frequency in <strong class="font-semibold text-white">Zone 2</strong> and <strong class="font-semibold text-white">Zone 4</strong>.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="material-symbols-outlined text-[var(--primary-400)] mt-1">science</span>
+                                <span>Conduct a detailed geotechnical investigation in <strong class="font-semibold text-white">Zone 1</strong> and <strong class="font-semibold text-white">Zone 5</strong>.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="material-symbols-outlined text-[var(--primary-400)] mt-1">block</span>
+                                <span>Restrict access to high-risk zones during peak operational hours.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <span class="material-symbols-outlined text-[var(--primary-400)] mt-1">school</span>
+                                <span>Provide additional training to personnel on rockfall hazards and safety procedures.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="bg-[#0d151c] p-6 rounded-md border border-[#1f2937]">
+                    <h3 class="text-xl font-bold text-white mb-4">Key Output Data</h3>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center p-3 rounded-md bg-[#1f2937]/50">
+                            <p class="font-medium text-white">Zone 1</p>
+                            <p class="font-bold risk-high">High Risk</p>
+                        </div>
+                        <div class="flex justify-between items-center p-3 rounded-md bg-[#1f2937]/50">
+                            <p class="font-medium text-white">Zone 2</p>
+                            <p class="font-bold risk-medium">Medium Risk</p>
+                        </div>
+                        <div class="flex justify-between items-center p-3 rounded-md bg-[#1f2937]/50">
+                            <p class="font-medium text-white">Zone 3</p>
+                            <p class="font-bold risk-low">Low Risk</p>
+                        </div>
+                        <div class="flex justify-between items-center p-3 rounded-md bg-[#1f2937]/50">
+                            <p class="font-medium text-white">Zone 4</p>
+                            <p class="font-bold risk-medium">Medium Risk</p>
+                        </div>
+                        <div class="flex justify-between items-center p-3 rounded-md bg-[#1f2937]/50">
+                            <p class="font-medium text-white">Zone 5</p>
+                            <p class="font-bold risk-high">High Risk</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8 flex justify-end">
+                <a href="chatbot.html" class="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-[var(--primary-600)] text-white hover:bg-[var(--primary-700)]">
+                    <span class="material-symbols-outlined">smart_toy</span>
+                    <span>Ask AI for insights</span>
+                </a>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
+</body>
+</html>
