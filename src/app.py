@@ -5,6 +5,17 @@ from test_api import check_earthquakes, get_weather
 
 app = Flask(__name__, template_folder='../templates')
 
+# -------- Alert Counter --------
+class AlertCounter:
+    def __init__(self):
+        self.count = 0
+    def increment(self):
+        self.count += 1
+    def get_count(self):
+        return self.count
+
+alert_counter = AlertCounter()
+
 # -------- Load model and data --------
 model_path = '../models/rf_model.pkl'
 with open(model_path, 'rb') as f:
@@ -117,7 +128,7 @@ def index():
         risk = determine_risk(probs_list[0])
     else:
         risk = "Unknown"
-    return render_template("index.html", risk=risk)
+    return render_template("index.html", risk=risk, no_of_alerts=alert_counter.get_count())
 
 # New route to receive location
 @app.route("/location", methods=["POST"])
@@ -172,6 +183,7 @@ def alerts():
                         "message": "Earthquake detected within 50 km of your location.",
                         "timestamp": now
                     })
+                    alert_counter.increment()
                 # Weather alert
                 temp_c, rain_mm = get_weather(float(latitude), float(longitude))
                 if rain_mm > 20:  # Heavy rainfall threshold (adjust as needed)
@@ -180,6 +192,7 @@ def alerts():
                         "message": f"Heavy rainfall detected: {rain_mm} mm.",
                         "timestamp": now
                     })
+                    alert_counter.increment()
                 # Thunderstorm alert (if you want to add, you need to check weather API for thunderstorm info)
                 # For now, only earthquake and heavy rainfall
             except Exception as e:
@@ -188,7 +201,10 @@ def alerts():
                     "message": str(e),
                     "timestamp": now
                 })
-    return render_template("alerts.html", alerts=alerts_list, latitude=latitude, longitude=longitude)
+                alert_counter.increment()
+        return render_template("alerts.html", alerts=alerts_list, latitude=latitude, longitude=longitude, alert_count=alert_counter.get_count())
+    # Handle GET requests and any other cases
+    return render_template("alerts.html", alerts=alerts_list, latitude=latitude, longitude=longitude, alert_count=alert_counter.get_count())
 
 @app.route("/predictions")
 def predictions():
