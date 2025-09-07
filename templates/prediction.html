@@ -105,14 +105,14 @@
                 <div class="flex flex-col gap-4 rounded-md border border-[#283339] bg-[#1a2024] p-6">
                     <div class="flex justify-between items-start">
                         <div>
-                            <p class="text-lg font-medium text-white">Rockfall Probability Over Time</p>
-                            <p class="text-sm text-gray-400">Past Month</p>
+                            <p class="text-lg font-medium text-white">Current Risk Level</p>
+                            <p class="text-sm text-gray-400">Latest Prediction</p>
                         </div>
                         <div class="text-right">
-                            <p class="text-4xl font-bold text-white">75%</p>
-                            <div class="flex items-center gap-1 text-green-500">
-                                <span class="material-symbols-outlined text-base">arrow_upward</span>
-                                <p class="text-base font-medium">+15%</p>
+                            <p class="text-4xl font-bold text-white">{{ data.average_risk if data else 75 }}%</p>
+                            <div class="flex items-center gap-1 {% if data and data.average_risk < 50 %}text-green-500{% elif data and data.average_risk > 75 %}text-red-500{% else %}text-yellow-500{% endif %}">
+                                <span class="material-symbols-outlined text-base">{% if data and data.average_risk < 50 %}arrow_downward{% else %}arrow_upward{% endif %}</span>
+                                <p class="text-base font-medium">{{ "Low Risk" if data and data.average_risk < 50 else "High Risk" if data and data.average_risk > 75 else "Medium Risk" }}</p>
                             </div>
                         </div>
                     </div>
@@ -142,48 +142,89 @@
                 <div class="flex flex-col gap-4 rounded-md border border-[#283339] bg-[#1a2024] p-6">
                     <div class="flex justify-between items-start">
                         <div>
-                            <p class="text-lg font-medium text-white">Rockfall Frequency by Location</p>
-                            <p class="text-sm text-gray-400">Past Month</p>
+                            <p class="text-lg font-medium text-white">Risk Distribution</p>
+                            <p class="text-sm text-gray-400">Current Predictions</p>
                         </div>
                         <div class="text-right">
-                            <p class="text-4xl font-bold text-white">120</p>
-                            <div class="flex items-center gap-1 text-red-500">
-                                <span class="material-symbols-outlined text-base">arrow_downward</span>
-                                <p class="text-base font-medium">-5%</p>
+                            <p class="text-4xl font-bold text-white">{{ data.total_predictions if data else 5 }}</p>
+                            <div class="flex items-center gap-1 text-blue-500">
+                                <span class="material-symbols-outlined text-base">analytics</span>
+                                <p class="text-base font-medium">Predictions</p>
                             </div>
                         </div>
                     </div>
                     <div class="grid flex-1 grid-flow-col gap-6 items-end justify-items-center px-3">
-                        <div class="flex flex-col items-center gap-2 w-full">
-                            <div class="bg-[#1193d4] w-full rounded-t-sm" style="height: 70%;"></div>
-                            <p class="text-xs font-bold text-gray-400">Zone A</p>
-                        </div>
-                        <div class="flex flex-col items-center gap-2 w-full">
-                            <div class="bg-[#1193d4] w-full rounded-t-sm" style="height: 20%;"></div>
-                            <p class="text-xs font-bold text-gray-400">Zone B</p>
-                        </div>
-                        <div class="flex flex-col items-center gap-2 w-full">
-                            <div class="bg-[#1193d4] w-full rounded-t-sm" style="height: 35%;"></div>
-                            <p class="text-xs font-bold text-gray-400">Zone C</p>
-                        </div>
-                        <div class="flex flex-col items-center gap-2 w-full">
-                            <div class="bg-[#1193d4] w-full rounded-t-sm" style="height: 60%;"></div>
-                            <p class="text-xs font-bold text-gray-400">Zone D</p>
-                        </div>
-                        <div class="flex flex-col items-center gap-2 w-full">
-                            <div class="bg-[#1193d4] w-full rounded-t-sm" style="height: 40%;"></div>
-                            <p class="text-xs font-bold text-gray-400">Zone E</p>
-                        </div>
+                        {% if data and data.risk_counts %}
+                            {% for risk_level, count in data.risk_counts.items() %}
+                            <div class="flex flex-col items-center gap-2 w-full">
+                                {% if count == 0 %}
+                                <div class="bg-[#1193d4] w-full rounded-t-sm" style="height: 10%;"></div>
+                                {% elif count == 1 %}
+                                <div class="bg-[#1193d4] w-full rounded-t-sm" style="height: 30%;"></div>
+                                {% elif count == 2 %}
+                                <div class="bg-[#1193d4] w-full rounded-t-sm" style="height: 60%;"></div>
+                                {% else %}
+                                <div class="bg-[#1193d4] w-full rounded-t-sm" style="height: 80%;"></div>
+                                {% endif %}
+                                <p class="text-xs font-bold text-gray-400">{{ risk_level }}</p>
+                                <p class="text-xs text-gray-500">{{ count }}</p>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="flex flex-col items-center gap-2 w-full">
+                                <div class="bg-[#1193d4] w-full rounded-t-sm" style="height: 70%;"></div>
+                                <p class="text-xs font-bold text-gray-400">Low</p>
+                            </div>
+                            <div class="flex flex-col items-center gap-2 w-full">
+                                <div class="bg-[#1193d4] w-full rounded-t-sm" style="height: 20%;"></div>
+                                <p class="text-xs font-bold text-gray-400">Medium</p>
+                            </div>
+                            <div class="flex flex-col items-center gap-2 w-full">
+                                <div class="bg-[#1193d4] w-full rounded-t-sm" style="height: 35%;"></div>
+                                <p class="text-xs font-bold text-gray-400">High</p>
+                            </div>
+                            <div class="flex flex-col items-center gap-2 w-full">
+                                <div class="bg-[#1193d4] w-full rounded-t-sm" style="height: 10%;"></div>
+                                <p class="text-xs font-bold text-gray-400">Critical</p>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
 
+            <div class="rounded-md border border-[#283339] bg-[#1a2024] p-6 mb-6">
+                <h2 class="text-xl font-bold text-white mb-4">Recent Predictions</h2>
+                {% if data and data.predictions %}
+                <div class="space-y-3">
+                    {% for i in range(data.predictions|length) %}
+                    <div class="flex items-center justify-between p-3 bg-[#111618] rounded-md">
+                        <div class="flex items-center gap-3">
+                            <div class="w-3 h-3 rounded-full {% if data.predictions[i] == 'Low' %}bg-green-500{% elif data.predictions[i] == 'Medium' %}bg-yellow-500{% elif data.predictions[i] == 'High' %}bg-orange-500{% else %}bg-red-500{% endif %}"></div>
+                            <span class="text-white font-medium">Prediction {{ i + 1 }}</span>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <span class="text-white">{{ data.predictions[i] }} Risk</span>
+                            {% if data.probabilities and i < data.probabilities|length %}
+                            <span class="text-gray-400 text-sm">{{ "%.1f"|format(data.probabilities[i][data.predictions[i]] * 100) }}% confidence</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="text-center text-gray-400 py-8">
+                    <span class="material-symbols-outlined text-4xl mb-2">pending</span>
+                    <p>No predictions available</p>
+                </div>
+                {% endif %}
+            </div>
+
             <div class="rounded-md border border-[#283339] bg-[#1a2024] p-6">
-                <h2 class="text-xl font-bold text-white mb-4">Prediction Parameters</h2>
+                <h2 class="text-xl font-bold text-white mb-4">Model Information</h2>
                 <div class="divide-y divide-[#283339]">
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-2 py-4">
                         <p class="text-gray-400">Model Accuracy</p>
-                        <p class="text-white col-span-2">92%</p>
+                        <p class="text-white col-span-2">{{ data.model_accuracy if data else 92 }}%</p>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-2 py-4">
                         <p class="text-gray-400">Data Sources</p>
@@ -191,17 +232,47 @@
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-2 py-4">
                         <p class="text-gray-400">Prediction Confidence</p>
-                        <p class="text-white col-span-2">High</p>
+                        <p class="text-white col-span-2">{{ data.confidence if data else "High" }}</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-2 py-4">
+                        <p class="text-gray-400">Total Predictions</p>
+                        <p class="text-white col-span-2">{{ data.total_predictions if data else 1 }}</p>
                     </div>
                 </div>
                 <div class="flex justify-end mt-6">
-                    <button class="flex items-center gap-2 min-w-[84px] max-w-[480px] cursor-pointer justify-center overflow-hidden rounded-md h-10 px-4 bg-[#1193d4] text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-opacity-80 transition-colors">
-                        <span class="material-symbols-outlined">download</span>
-                        <span class="truncate">Download Report</span>
+                    <button id="refreshBtn" class="flex items-center gap-2 min-w-[84px] max-w-[480px] cursor-pointer justify-center overflow-hidden rounded-md h-10 px-4 bg-[#1193d4] text-white text-sm font-bold leading-normal tracking-[0.015em] hover:bg-opacity-80 transition-colors">
+                        <span class="material-symbols-outlined">refresh</span>
+                        <span class="truncate">Generate New Predictions</span>
                     </button>
                 </div>
             </div>
         </main>
     </div>
+
+    <script>
+        document.getElementById('refreshBtn').addEventListener('click', function() {
+            this.disabled = true;
+            this.innerHTML = '<span class="material-symbols-outlined animate-spin">refresh</span><span class="truncate">Generating...</span>';
+            
+            fetch('/api/generate_predictions')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Reload the page to show new predictions
+                        window.location.reload();
+                    } else {
+                        alert('Failed to generate predictions: ' + data.message);
+                        this.disabled = false;
+                        this.innerHTML = '<span class="material-symbols-outlined">refresh</span><span class="truncate">Generate New Predictions</span>';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error generating predictions');
+                    this.disabled = false;
+                    this.innerHTML = '<span class="material-symbols-outlined">refresh</span><span class="truncate">Generate New Predictions</span>';
+                });
+        });
+    </script>
 </body>
 </html>

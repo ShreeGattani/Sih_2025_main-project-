@@ -24,11 +24,12 @@
         <h1 class="text-xl font-bold">MineSafe</h1>
       </div>
       <nav class="flex flex-col gap-2 flex-grow">
-        <a href="#" class="px-4 py-2 rounded-md text-gray-400 hover:bg-[#233648] hover:text-white flex gap-2 items-center"><span class="material-symbols-outlined">dashboard</span>Dashboard</a>
-        <a href="#" class="px-4 py-2 rounded-md text-gray-400 hover:bg-[#233648] hover:text-white flex gap-2 items-center"><span class="material-symbols-outlined">model_training</span>Predictions</a>
-        <a href="#" class="px-4 py-2 rounded-md text-gray-400 hover:bg-[#233648] hover:text-white flex gap-2 items-center"><span class="material-symbols-outlined">notifications</span>Alerts</a>
-        <a href="#" class="px-4 py-2 rounded-md text-gray-400 hover:bg-[#233648] hover:text-white flex gap-2 items-center"><span class="material-symbols-outlined">upload_file</span>Upload Data</a>
-        <a href="#" class="px-4 py-2 rounded-md bg-[#233648] text-white flex gap-2 items-center"><span class="material-symbols-outlined">smart_toy</span>AI Assistant</a>
+        <a href="{{ url_for('index') }}" class="px-4 py-2 rounded-md text-gray-400 hover:bg-[#233648] hover:text-white flex gap-2 items-center"><span class="material-symbols-outlined">dashboard</span>Dashboard</a>
+        <a href="{{ url_for('predictions') }}" class="px-4 py-2 rounded-md text-gray-400 hover:bg-[#233648] hover:text-white flex gap-2 items-center"><span class="material-symbols-outlined">model_training</span>Predictions</a>
+        <a href="{{ url_for('alerts') }}" class="px-4 py-2 rounded-md text-gray-400 hover:bg-[#233648] hover:text-white flex gap-2 items-center"><span class="material-symbols-outlined">notifications</span>Alerts</a>
+        <a href="{{ url_for('upload') }}" class="px-4 py-2 rounded-md text-gray-400 hover:bg-[#233648] hover:text-white flex gap-2 items-center"><span class="material-symbols-outlined">upload_file</span>Upload Data</a>
+        <a href="{{ url_for('results') }}" class="px-4 py-2 rounded-md text-gray-400 hover:bg-[#233648] hover:text-white flex gap-2 items-center"><span class="material-symbols-outlined">summarize</span>Results</a>
+        <a href="{{ url_for('chatbot') }}" class="px-4 py-2 rounded-md bg-[#233648] text-white flex gap-2 items-center"><span class="material-symbols-outlined">smart_toy</span>AI Assistant</a>
       </nav>
     </aside>
 
@@ -54,6 +55,40 @@
     </main>
   </div>
 
+  <script>
+    // Inline the chatbot functionality since the external JS file isn't properly served
+    window.MineSafeAI = {
+      async handleChatMessage(message) {
+        // Simple responses for demo
+        const responses = {
+          "hello": "Hello! I'm your MineSafe assistant. How can I help you today?",
+          "safety": "Safety first! Always wear protective equipment and follow protocols.",
+          "alerts": "I can help you check current alerts and warnings.",
+          "predictions": "I can explain rockfall predictions and risk levels.",
+          "help": "I can assist with safety checks, alerts, predictions, and general mining safety questions.",
+        };
+        
+        const lowerMessage = message.toLowerCase();
+        for (const [key, response] of Object.entries(responses)) {
+          if (lowerMessage.includes(key)) {
+            return { message: response };
+          }
+        }
+        
+        return { message: "I'm here to help with mining safety. Try asking about safety, alerts, or predictions!" };
+      },
+      
+      async handleSafetyCheckWithPincode(pincode) {
+        // Mock safety check response
+        const riskLevels = ["Low", "Medium", "High"];
+        const randomRisk = riskLevels[Math.floor(Math.random() * riskLevels.length)];
+        
+        return {
+          message: `Safety check for PIN ${pincode}:\n\nCurrent Risk Level: ${randomRisk}\nLast Updated: ${new Date().toLocaleString()}\n\nRecommendations:\n- Monitor seismic activity\n- Check weather conditions\n- Review evacuation routes`
+        };
+      }
+    };
+  </script>
   <script src="./chatbot.js"></script>
   <script>
     const chat = document.getElementById("chat");

@@ -71,7 +71,7 @@
             <header class="flex justify-between items-center mb-8">
                 <div>
                     <h1 class="text-3xl font-bold">Upload Data</h1>
-                    <p class="text-gray-400">Upload a CSV file to begin the rockfall prediction process</p>
+                    <p class="text-gray-400">Upload CSV data to generate rockfall predictions automatically</p>
                 </div>
                 <div class="flex items-center gap-4">
                     <button class="p-2 rounded-full bg-[#192633] hover:bg-[#233648] transition-colors">
@@ -84,81 +84,70 @@
                 </div>
             </header>
 
-            <div class="mx-auto flex max-w-5xl flex-col gap-8">
-                <div class="flex items-start gap-8">
-                    <div class="flex flex-1 flex-col gap-6 rounded-lg border border-[#233648] bg-[#192633] p-6">
-                        <div class="flex flex-col gap-4">
-                            <h3 class="text-lg font-bold text-white">1. Upload CSV File</h3>
-                            <label for="file-input" id="dropzone" class="flex h-48 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-[#324d67] bg-[#111a22] text-center text-gray-400 hover:border-[#1193d4] hover:bg-[#0f1820] transition-colors">
-                                <span class="material-symbols-outlined text-4xl">cloud_upload</span>
-                                <p class="mt-2 text-sm font-medium">Drag & drop your CSV here or <span class="font-bold text-[#1193d4]">browse</span></p>
-                                <p class="text-xs text-gray-500">Max 100 MB • .csv</p>
-                                <input id="file-input" type="file" accept=".csv,text/csv" class="hidden" />
-                            </label>
-                            <div id="file-meta" class="hidden text-sm text-gray-300 rounded-md bg-[#111a22] border border-[#324d67] p-3">
-                                <div class="flex items-center justify-between">
-                                    <div class="flex items-center gap-2">
-                                        <span class="material-symbols-outlined text-[#1193d4]">description</span>
-                                        <span id="file-name"></span>
-                                    </div>
-                                    <span id="file-size" class="text-gray-400"></span>
-                                </div>
-                            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Upload Area -->
+                <div class="bg-[#1a2024] p-6 rounded-lg border border-[#283339]">
+                    <h2 class="text-xl font-bold text-white mb-4">Upload CSV Data</h2>
+                    <p class="text-gray-400 mb-6">Upload your rockfall sensor data in CSV format to generate predictions automatically.</p>
+                    
+                    <form id="upload-form" enctype="multipart/form-data">
+                        <div id="dropzone" class="border-2 border-dashed border-[#324d67] rounded-lg p-12 text-center hover:border-[#1193d4] hover:bg-[#0f1820] transition-all cursor-pointer">
+                            <span class="material-symbols-outlined text-4xl text-gray-400 mb-4 block">upload_file</span>
+                            <p class="text-gray-300 font-medium">Click to upload or drag and drop</p>
+                            <p class="text-gray-400 text-sm mt-2">CSV files only</p>
+                            <input type="file" id="file-input" name="file" accept=".csv" class="hidden">
                         </div>
-                        <div class="flex flex-col gap-4">
-                            <h3 class="text-lg font-bold text-white">2. Select Relevant Columns</h3>
-                            <div class="grid grid-cols-2 gap-4">
-                                <div class="flex flex-col gap-2">
-                                    <label class="text-sm font-medium text-gray-300" for="x-coordinate">X-coordinate</label>
-                                    <select class="w-full rounded-md border-[#324d67] bg-[#111a22] text-white placeholder:text-gray-400 focus:border-[#1193d4] focus:ring-[#1193d4]" id="x-coordinate">
-                                        <option value="">Select column</option>
-                                    </select>
-                                </div>
-                                <div class="flex flex-col gap-2">
-                                    <label class="text-sm font-medium text-gray-300" for="y-coordinate">Y-coordinate</label>
-                                    <select class="w-full rounded-md border-[#324d67] bg-[#111a22] text-white placeholder:text-gray-400 focus:border-[#1193d4] focus:ring-[#1193d4]" id="y-coordinate">
-                                        <option value="">Select column</option>
-                                    </select>
-                                </div>
-                                <div class="flex flex-col gap-2">
-                                    <label class="text-sm font-medium text-gray-300" for="z-coordinate">Z-coordinate</label>
-                                    <select class="w-full rounded-md border-[#324d67] bg-[#111a22] text-white placeholder:text-gray-400 focus:border-[#1193d4] focus:ring-[#1193d4]" id="z-coordinate">
-                                        <option value="">Select column</option>
-                                    </select>
-                                </div>
-                                <div class="flex flex-col gap-2">
-                                    <label class="text-sm font-medium text-gray-300" for="time">Time</label>
-                                    <select class="w-full rounded-md border-[#324d67] bg-[#111a22] text-white placeholder:text-gray-400 focus:border-[#1193d4] focus:ring-[#1193d4]" id="time">
-                                        <option value="">Select column</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
+                    </form>
+
+                    <div id="file-meta" class="hidden mt-4 p-4 bg-[#111618] rounded-lg">
                         <div class="flex items-center justify-between">
-                            <p id="mapping-hint" class="text-xs text-gray-400">Map required columns to enable prediction.</p>
-                            <button id="run-btn" disabled class="flex min-w-[140px] items-center justify-center overflow-hidden rounded-lg h-10 px-6 bg-[#253745] text-white text-sm font-bold tracking-[0.015em] disabled:opacity-60 disabled:cursor-not-allowed hover:bg-[#2d4456]">
-                                <span class="material-symbols-outlined mr-2 text-sm">play_arrow</span>
-                                <span class="truncate">Run Prediction</span>
+                            <div class="flex items-center gap-3">
+                                <span class="material-symbols-outlined text-[#1193d4]">description</span>
+                                <div>
+                                    <p id="file-name" class="text-white font-medium"></p>
+                                    <p id="file-size" class="text-gray-400 text-sm"></p>
+                                </div>
+                            </div>
+                            <button id="run-btn" type="button" class="flex items-center gap-2 px-4 py-2 bg-[#1193d4] text-white rounded-md hover:bg-opacity-80 transition-colors" disabled>
+                                <span class="material-symbols-outlined text-sm">model_training</span>
+                                Generate Predictions
                             </button>
                         </div>
                     </div>
-                    
-                    <div class="flex-1">
-                        <div class="flex flex-col gap-4 rounded-lg border border-[#233648] bg-[#192633] p-6">
-                            <h3 class="text-lg font-bold text-white">Data Preview</h3>
-                            <div id="preview-empty" class="rounded-md border border-dashed border-[#324d67] bg-[#0f1820] p-6 text-center text-gray-400">No file selected yet.</div>
-                            <div id="preview-table" class="hidden overflow-x-auto rounded-lg border border-[#324d67]">
-                                <table class="w-full text-left">
-                                    <thead class="bg-[#111a22]" id="table-head"></thead>
-                                    <tbody class="divide-y divide-[#324d67]" id="table-body"></tbody>
-                                </table>
-                            </div>
-                        </div>
+
+                    <div id="upload-status" class="hidden mt-4"></div>
+                </div>
+
+                <!-- Data Preview -->
+                <div class="bg-[#1a2024] p-6 rounded-lg border border-[#283339]">
+                    <h3 class="text-lg font-bold text-white mb-4">Data Preview</h3>
+                    <div id="preview-empty" class="text-center py-12">
+                        <span class="material-symbols-outlined text-4xl text-gray-400 mb-4 block">table_view</span>
+                        <p class="text-gray-400">Upload a file to see data preview</p>
                     </div>
+                    <div id="preview-table" class="hidden overflow-x-auto rounded-lg border border-[#324d67]">
+                        <table class="w-full text-left">
+                            <thead class="bg-[#111a22]" id="table-head"></thead>
+                            <tbody class="divide-y divide-[#324d67]" id="table-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div id="results-section" class="hidden mt-8 bg-[#1a2024] p-6 rounded-lg border border-[#283339]">
+                <h3 class="text-lg font-bold text-white mb-4">Prediction Results</h3>
+                <div id="prediction-results"></div>
+                <div class="flex justify-end mt-4">
+                    <a href="{{ url_for('predictions') }}" class="flex items-center gap-2 px-4 py-2 bg-[#1193d4] text-white rounded-md hover:bg-opacity-80 transition-colors">
+                        <span class="material-symbols-outlined text-sm">open_in_new</span>
+                        View Full Results
+                    </a>
                 </div>
             </div>
         </main>
     </div>
+
     <script>
         const dropzone = document.getElementById('dropzone');
         const fileInput = document.getElementById('file-input');
@@ -169,8 +158,10 @@
         const bodyEl = document.getElementById('table-body');
         const previewEmpty = document.getElementById('preview-empty');
         const previewTable = document.getElementById('preview-table');
-        const selects = ['x-coordinate','y-coordinate','z-coordinate','time'].map(id=>document.getElementById(id));
         const runBtn = document.getElementById('run-btn');
+        const uploadStatus = document.getElementById('upload-status');
+        const resultsSection = document.getElementById('results-section');
+        const predictionResults = document.getElementById('prediction-results');
 
         function bytesToSize(bytes){
             const sizes=['B','KB','MB','GB'];
@@ -182,6 +173,84 @@
         function setActiveDrop(active){
             dropzone.classList.toggle('border-[#1193d4]', active);
             dropzone.classList.toggle('bg-[#0f1820]', active);
+        }
+
+        function showStatus(message, isError = false) {
+            uploadStatus.innerHTML = `
+                <div class="p-3 rounded-md ${isError ? 'bg-red-900/30 border border-red-500' : 'bg-green-900/30 border border-green-500'}">
+                    <p class="${isError ? 'text-red-400' : 'text-green-400'}">${message}</p>
+                </div>
+            `;
+            uploadStatus.classList.remove('hidden');
+        }
+
+        function parseCSV(text){
+            const rows=[]; let cur=''; let row=[]; let inQuotes=false; const pushCell=()=>{ row.push(cur); cur=''; };
+            for(let i=0;i<text.length;i++){
+                const ch=text[i];
+                if(ch==='"'){
+                    if(inQuotes && text[i+1]==='"'){ cur+='"'; i++; }
+                    else inQuotes=!inQuotes;
+                } else if(ch===',' && !inQuotes){ pushCell(); }
+                else if((ch==='\n' || ch==='\r') && !inQuotes){ if(cur!=='' || row.length){ pushCell(); rows.push(row); row=[]; } }
+                else { cur+=ch; }
+            }
+            if(cur!=='' || row.length){ pushCell(); rows.push(row); }
+            return rows.filter(r=>r.some(c=>c && c.trim()!==''));
+        }
+
+        function renderPreview(rows){
+            const headers = rows[0] || [];
+            headEl.innerHTML = '<tr>' + headers.map(h=>`<th class="px-4 py-3 text-xs font-semibold uppercase tracking-wide text-gray-300">${h||''}</th>`).join('') + '</tr>';
+            const maxRows = Math.min(5, rows.length-1);
+            bodyEl.innerHTML = Array.from({length:maxRows}, (_,i)=>{
+                const r = rows[i+1] || [];
+                return '<tr>'+ r.map(c=>`<td class="px-4 py-2 text-sm text-gray-200">${(c??'')}</td>`).join('') + '</tr>';
+            }).join('');
+            previewEmpty.classList.add('hidden');
+            previewTable.classList.remove('hidden');
+        }
+
+        function displayResults(data) {
+            const predictions = data.predictions || [];
+            const probabilities = data.probabilities || [];
+            
+            let html = `
+                <div class="mb-4 p-4 bg-[#111618] rounded-lg">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-white font-medium">Upload Summary</span>
+                        <span class="text-green-400">✓ Success</span>
+                    </div>
+                    <div class="text-sm text-gray-400">
+                        <p>Data rows: ${data.data_rows || 0}</p>
+                        <p>Generated predictions: ${predictions.length}</p>
+                        <p>Model used: ${data.model_used || 'Unknown'}</p>
+                    </div>
+                </div>
+                <div class="space-y-3">
+            `;
+            
+            predictions.slice(0, 5).forEach((pred, i) => {
+                const prob = probabilities[i] || {};
+                const confidence = prob[pred] || 0;
+                html += `
+                    <div class="flex items-center justify-between p-3 bg-[#111618] rounded-md">
+                        <div class="flex items-center gap-3">
+                            <div class="w-3 h-3 rounded-full ${
+                                pred === 'Low' ? 'bg-green-500' : 
+                                pred === 'Medium' ? 'bg-yellow-500' : 
+                                pred === 'High' ? 'bg-orange-500' : 'bg-red-500'
+                            }"></div>
+                            <span class="text-white">Row ${i + 1}: ${pred} Risk</span>
+                        </div>
+                        <span class="text-gray-400 text-sm">${(confidence * 100).toFixed(1)}% confidence</span>
+                    </div>
+                `;
+            });
+            
+            html += '</div>';
+            predictionResults.innerHTML = html;
+            resultsSection.classList.remove('hidden');
         }
 
         dropzone.addEventListener('dragover', e=>{ e.preventDefault(); setActiveDrop(true); });
@@ -197,71 +266,61 @@
             if(fileInput.files[0]) handleFile(fileInput.files[0]);
         });
 
-        function parseCSV(text){
-            // Simple CSV parser for demo (handles quotes minimally)
-            const rows=[]; let cur=''; let row=[]; let inQuotes=false; const pushCell=()=>{ row.push(cur); cur=''; };
-            for(let i=0;i<text.length;i++){
-                const ch=text[i];
-                if(ch==='"'){
-                    if(inQuotes && text[i+1]==='"'){ cur+='"'; i++; }
-                    else inQuotes=!inQuotes;
-                } else if(ch===',' && !inQuotes){ pushCell(); }
-                else if((ch==='\n' || ch==='\r') && !inQuotes){ if(cur!=='' || row.length){ pushCell(); rows.push(row); row=[]; } }
-                else { cur+=ch; }
-            }
-            if(cur!=='' || row.length){ pushCell(); rows.push(row); }
-            // remove empty trailing rows
-            return rows.filter(r=>r.some(c=>c && c.trim()!==''));
-        }
-
-        function populateSelects(headers){
-            selects.forEach(sel=>{
-                sel.innerHTML = '<option value="">Select column</option>' + headers.map((h,i)=>`<option value="${i}">${h||('Column '+(i+1))}</option>`).join('');
-            });
-        }
-
-        function renderPreview(rows){
-            const headers = rows[0] || [];
-            headEl.innerHTML = '<tr>' + headers.map(h=>`<th class="px-4 py-3 text-xs font-semibold uppercase tracking-wide text-gray-300">${h||''}</th>`).join('') + '</tr>';
-            const maxRows = Math.min(10, rows.length-1);
-            bodyEl.innerHTML = Array.from({length:maxRows}, (_,i)=>{
-                const r = rows[i+1] || [];
-                return '<tr>'+ r.map(c=>`<td class="px-4 py-2 text-sm text-gray-200">${(c??'')}</td>`).join('') + '</tr>';
-            }).join('');
-            previewEmpty.classList.add('hidden');
-            previewTable.classList.remove('hidden');
-        }
-
-        function validateMapping(){
-            const allChosen = selects.every(s=> s.value !== '');
-            runBtn.disabled = !allChosen;
-        }
-        selects.forEach(s=> s.addEventListener('change', validateMapping));
-
         function handleFile(file){
-            if(!file.name.toLowerCase().endsWith('.csv')){ alert('Please select a CSV file.'); return; }
+            if(!file.name.toLowerCase().endsWith('.csv')){ 
+                showStatus('Please select a CSV file.', true); 
+                return; 
+            }
+            
             fileNameEl.textContent = file.name;
             fileSizeEl.textContent = bytesToSize(file.size);
             fileMeta.classList.remove('hidden');
+            runBtn.disabled = false;
+            
             const reader = new FileReader();
             reader.onload = () => {
                 const text = reader.result;
                 const rows = parseCSV(text);
-                if(!rows.length){ alert('CSV appears empty.'); return; }
-                populateSelects(rows[0]);
+                if(!rows.length){ 
+                    showStatus('CSV appears empty.', true); 
+                    return; 
+                }
                 renderPreview(rows);
-                validateMapping();
             };
             reader.readAsText(file);
         }
 
         runBtn.addEventListener('click', ()=>{
-            runBtn.innerHTML = '<span class="material-symbols-outlined mr-2 text-sm animate-spin">progress_activity</span>Running...';
-            setTimeout(()=>{
-                runBtn.innerHTML = '<span class="material-symbols-outlined mr-2 text-sm">check_circle</span>Done';
-                // Navigate to results page in demo
-                window.location.href = 'results.html';
-            }, 1000);
+            const file = fileInput.files[0];
+            if (!file) return;
+
+            runBtn.innerHTML = '<span class="material-symbols-outlined mr-2 text-sm animate-spin">progress_activity</span>Processing...';
+            runBtn.disabled = true;
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            fetch('/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showStatus(data.message);
+                    displayResults(data);
+                } else {
+                    showStatus(data.error || 'Upload failed', true);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showStatus('Network error occurred', true);
+            })
+            .finally(() => {
+                runBtn.innerHTML = '<span class="material-symbols-outlined mr-2 text-sm">model_training</span>Generate Predictions';
+                runBtn.disabled = false;
+            });
         });
     </script>
 </body>

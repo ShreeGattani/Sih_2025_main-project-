@@ -2,3 +2,5 @@ pandas
 numpy
 sdv
 scikit-learn
+flask
+joblib
