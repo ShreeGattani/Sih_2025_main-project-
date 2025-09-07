@@ -6,8 +6,8 @@ from sklearn.preprocessing import LabelEncoder
 
 df = pd.read_csv('../data/raw/synthetic_data.csv')
 
-X = df.drop(['Highwall', 'Risk_Level', 'Risk_Score'] ,axis=1)
-y = df['Risk_Level']
+X = df.drop('risk_level',axis=1)
+y = df['risk_level']
 
 label_encoder = LabelEncoder()
 y_encoded = label_encoder.fit_transform(y)
