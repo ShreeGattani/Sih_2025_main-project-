@@ -2,7 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="        <div class="rounded-lg border border-[#233648] bg-[#192633] p-4 space-y-4">
+          <h3 class="text-lg font-semibold">Quick Prompts</h3>
+          <div class="grid grid-cols-1 gap-2">
+            <button class="prompt px-3 py-2 rounded-md bg-[#223243] text-left hover:bg-[#2a4058]">Is it safe to work today? My pincode is 110001</button>
+            <button class="prompt px-3 py-2 rounded-md bg-[#223243] text-left hover:bg-[#2a4058]">What safety measures should I take during mining?</button>
+            <button class="prompt px-3 py-2 rounded-md bg-[#223243] text-left hover:bg-[#2a4058]">How do I handle rockfall alerts?</button>
+            <button class="prompt px-3 py-2 rounded-md bg-[#223243] text-left hover:bg-[#2a4058]">What are the signs of unstable ground?</button>
+          </div>
+        </div>ice-width, initial-scale=1.0" />
   <title>MineSafe - AI Assistant</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -122,12 +130,21 @@
     const sendBtn = document.getElementById('send-btn');
     const suggestBtn = document.getElementById('suggest-btn');
 
-    function addMessage(text, from='user'){
+    function addMessage(text, from='user', type='general'){
       const row = document.createElement('div');
       row.className = 'flex gap-3 ' + (from==='user' ? 'justify-end' : '');
       const bubble = document.createElement('div');
       bubble.className = 'message rounded-lg p-3 ' + (from==='user' ? 'bg-[#1193d4] text-white' : 'bg-[#111a22]');
-      bubble.innerText = text;
+      
+      // Format message based on type
+      if (type === 'safety_check' && from === 'assistant') {
+        bubble.innerHTML = `<pre class="whitespace-pre-wrap text-sm">${text}</pre>`;
+      } else if (type === 'weather' && from === 'assistant') {
+        bubble.innerHTML = `<pre class="whitespace-pre-wrap text-sm">${text}</pre>`;
+      } else {
+        bubble.innerText = text;
+      }
+      
       if(from==='assistant'){
         const icon = document.createElement('div');
         icon.className = 'shrink-0';
@@ -141,20 +158,77 @@
       chat.scrollTop = chat.scrollHeight;
     }
 
+    function showTyping() {
+      const row = document.createElement('div');
+      row.className = 'flex gap-3';
+      row.id = 'typing-indicator';
+      
+      const icon = document.createElement('div');
+      icon.className = 'shrink-0';
+      icon.innerHTML = '<span class="material-symbols-outlined text-[#1193d4]">smart_toy</span>';
+      
+      const bubble = document.createElement('div');
+      bubble.className = 'message rounded-lg bg-[#111a22] p-3';
+      bubble.innerHTML = '<div class="flex gap-1"><div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div><div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.1s"></div><div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div></div>';
+      
+      row.appendChild(icon);
+      row.appendChild(bubble);
+      chat.appendChild(row);
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    function hideTyping() {
+      const typingIndicator = document.getElementById('typing-indicator');
+      if (typingIndicator) {
+        typingIndicator.remove();
+      }
+    }
+
+    async function sendMessage(text) {
+      try {
+        showTyping();
+        
+        const response = await fetch('/api/chat', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ message: text })
+        });
+
+        hideTyping();
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        
+        if (data.error) {
+          addMessage(`Error: ${data.error}`, 'assistant', 'error');
+        } else {
+          addMessage(data.response, 'assistant', data.type);
+        }
+      } catch (error) {
+        hideTyping();
+        console.error('Error sending message:', error);
+        addMessage('Sorry, I encountered an error while processing your request. Please try again.', 'assistant', 'error');
+      }
+    }
+
     form.addEventListener('submit', (e)=>{
       e.preventDefault();
       const text = input.value.trim();
       if(!text) return;
+      
       addMessage(text, 'user');
       input.value = '';
-      // Fake assistant response for demo
-      setTimeout(()=>{
-        addMessage('Thanks! I\'ll look into that. (Demo response)', 'assistant');
-      }, 500);
+      sendMessage(text);
     });
 
     sendBtn.addEventListener('click', (e)=>{
-      e.preventDefault(); form.dispatchEvent(new Event('submit'));
+      e.preventDefault(); 
+      form.dispatchEvent(new Event('submit'));
     });
 
     document.querySelectorAll('.prompt').forEach(btn=>{
@@ -164,14 +238,38 @@
       });
     });
 
-    suggestBtn.addEventListener('click', ()=>{
-      const suggestions = [
-        'What is the current overall risk level?',
-        'List sectors with the highest probability this week.',
-        'How do I format the CSV for upload?',
-        'Summarize the last 5 alerts by severity.',
-      ];
-      input.value = suggestions[Math.floor(Math.random()*suggestions.length)];
+    async function loadSuggestions() {
+      try {
+        const response = await fetch('/api/suggestions');
+        const data = await response.json();
+        input.value = data.suggestions[Math.floor(Math.random() * data.suggestions.length)];
+      } catch (error) {
+        console.error('Error loading suggestions:', error);
+        // Fallback suggestions
+        const fallbackSuggestions = [
+          'What is the current overall risk level?',
+          'Is it safe to work today? My pincode is 110001',
+          'What safety measures should I take?',
+          'How do I handle rockfall alerts?',
+        ];
+        input.value = fallbackSuggestions[Math.floor(Math.random() * fallbackSuggestions.length)];
+      }
+    }
+
+    suggestBtn.addEventListener('click', loadSuggestions);
+
+    // Auto-resize textarea
+    input.addEventListener('input', function() {
+      this.style.height = 'auto';
+      this.style.height = this.scrollHeight + 'px';
+    });
+
+    // Allow Enter to send message, Shift+Enter for new line
+    input.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        form.dispatchEvent(new Event('submit'));
+      }
     });
   </script>
 </body>
